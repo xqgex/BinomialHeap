@@ -4,102 +4,145 @@
  * An implementation of binomial heap over non-negative integers.
  * Based on exercise from previous semester.
  */
-public class BinomialHeap
-{
+public class BinomialHeap {
+	public class BinomialTree {
+		public BinomialTree() {
+			
+		}
+	}
+	public class BinomialNode {
+		// If node x is a root, then parent = NIL.
+		// If node x has no children, then child = NIL.
+		// if x is the rightmost child of its parent, then sibling = NIL.
+		private BinomialNode parent; // Pointer to its parent.
+		private BinomialNode child; // Pointer to its leftmost child.
+		private BinomialNode sibling; // pointer to the sibling of x immediately to its right.
+		private int degree; // The number of children of x.
+		private int key;
+		public BinomialNode(int key) {
+			this.parent = NIL;
+			this.child = NIL;
+			this.sibling = NIL;
+			this.degree = 0;
+			this.key = key;
+		}
+	}
+	/** Creates and returns a new heap containing no elements **/
+	public BinomialHeap() {
+		
+	}
 	/***************************************************
 	 ****			Variables						****
 	 ***************************************************/
+	private static BinomialHeap NILsupport = new BinomialHeap();
+	public static final BinomialNode NIL = NILsupport.new BinomialNode(0);
+	public static final int INFINITY = 2147483647;
+	private BinomialNode head;
 	public int numberOfLinks;
 	/***************************************************
 	 ****			ADT functions					****
 	 ***************************************************/
-	private Node minimum(BinomialHeap H) {
-		y = NIL;
-		x = head[H];
-		min = infinity;
+	/** Returns a pointer to the node in heap H whose key is minimum **/
+	private BinomialNode minimum() {
+		BinomialNode y = NIL;
+		BinomialNode x = this.head;
+		int min = INFINITY;
 		while (x != NIL) {
-			if (key[x] < min) {
-				min = key[x];
+			if (x.key < min) {
+				min = x.key;
 				y = x;
 			}
-			x = sibling[x];
+			x = x.sibling;
 		}
 		return y;
 	}
-	private void link(Node y, Node z) {
-		p[y] = z;
-		sibling[y] = child[z];
-		child[z] = y;
-		degree[z] += 1;
+	/** The procedure makes node y the new head of the linked list of node z’s children **/
+	private void link(BinomialNode y, BinomialNode z) {
+		y.parent = z;
+		y.sibling = z.child;
+		z.child = y;
+		z.degree += 1;
 	}
+	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
+	 * that is sorted by degree into monotonically increasing order. **/
+	private BinomialNode merge(BinomialHeap H1, BinomialHeap H2) {
+		return null; // TODO
+	}
+	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
+	 * Heaps H1 and H2 are “destroyed” by this operation. **/
 	private BinomialHeap union(BinomialHeap H1, BinomialHeap H2) {
 		BinomialHeap H = new BinomialHeap();
-		head[H] = merge(H1,H2);
-		// free the objects H1 and H2 but not the lists they point to
-		if (head[H] == NIL) {
+		H.head = merge(H1,H2); // Free the objects H1 and H2 but not the lists they point to
+		if (H.head == NIL) {
 			return H;
 		}
-		prev_x = NIL;
-		x = head[H];
-		next_x = sibling[x];
+		BinomialNode prev_x = NIL;
+		BinomialNode x = H.head;
+		BinomialNode next_x = x.sibling;
 		while (next_x != NIL) {
-			if ( (degree[x] != degree[next_x])||( (sibling[next_x] != NIL)&&(degree[sibling[next_x]] == degree[x]) ) ) { // Case 1+2
+			if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
 				prev_x = x;
 				x = next_x;
 			} else { // Case 3+4
-				if (key[x] <= key[next_x]) { // Case 3
+				if (x.key <= next_x.key) { // Case 3
 					link(next_x,x);
 				} else { // Case 4
 					if (prev_x == NIL) {
-						head[H] = next_x;
+						H.head = next_x;
 					} else {
-						sibling[prev_x] = next_x;
+						prev_x.sibling = next_x;
 					}
 					link(x,next_x);
 					x = next_x;
 				}
 			}
-			next_x = sibling[x];
+			next_x = x.sibling;
 		}
 		return H;
 	}
-	private void insert(BinomialHeap H, int x) {
+	/** Inserts node x, whose key field has already been filled in, into heap H. **/
+	private void insert(BinomialHeap H, BinomialNode x) {
 		BinomialHeap H1 = new BinomialHeap();
-		p[x] = NIL;
-		child[x] = NIL;
-		sibling[x] = NIL;
-		degree[x] = 0;
-		head[H1] = x;
-		H = union(H,H1)
+		x.parent = NIL;
+		x.child = NIL;
+		x.sibling = NIL;
+		x.degree = 0;
+		H1.head = x;
+		H = union(H,H1);
 	}
+	/** Deletes the node from heap H whose key is minimum, returning a pointer to the node. **/
 	private int extractMin(BinomialHeap H) {
 		// find the root x with the minimum key in the root list of H , and remove x from the root list of H
 		BinomialHeap H1 = new BinomialHeap();
 		// reverse the order of the linked list of x’s children, setting the p field of each child to NIL , and set head[H ′ ] to point to the head of the resulting list
 		H = union(H,H1);
-		return x;
+		return x; // TODO
 	}
-	private void decreaseKey(BinomialHeap H, int x, k) {
-		if (k > key[x]) {
+	/** Assigns to node x within heap H the new key value k,
+	 * which is assumed to be no greater than its current key value. **/
+	private void decreaseKey(BinomialNode x, int k) {
+		if (k > x.key) {
 			System.err.println("New key is greater than current key");
 		} else {
-			key[x] = k;
-			y = x;
-			z = p[y];
-			while ( (z != NIL)&&(key[y] < key[z]) ) {
-				tmpKey = key[z];
-				key[z] = key[y];
-				key[y] = tmpKey;
-				if (If y and z have satellite fields, exchange them, too.) { // If y and z have satellite fields, exchange them, too.
+			int tmpKey = 0;
+			x.key = k;
+			BinomialNode y = x;
+			BinomialNode z = y.parent;
+			while ( (z != NIL)&&(y.key < z.key) ) {
+				tmpKey = z.key;
+				z.key = y.key;
+				y.key = tmpKey;
+				if (If y and z have satellite fields, exchange them, too) { // If y and z have satellite fields, exchange them, too. // TODO
 					y = z;
-					z = p[y];
+					z = y.parent;
 				}
 			}
 		}
 	}
-	private void delete(BinomialHeap H, int x) {
-		decreaseKey(H, x, -infinity);
-		extractMin( H);
+	/** Deletes node x from heap H. **/
+	private void delete(BinomialNode x) {
+		decreaseKey(x, -INFINITY);
+		extractMin(this);
 	}
 	/***************************************************
 	 ****			Public functions				****
