@@ -2,7 +2,7 @@
  * BinomialHeap
  *
  * An implementation of binomial heap over non-negative integers.
- * Based on exercise from previous semester.// test changes
+ * Based on exercise from previous semester.
  */
 public class BinomialHeap {
 	public class BinomialTree {
