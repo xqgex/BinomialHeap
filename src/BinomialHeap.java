@@ -156,8 +156,10 @@ public class BinomialHeap {
 	* is empty.
 	*	
 	*/
-	public boolean empty()
-	{
+	public boolean empty() {
+		if (this.head == NIL) {
+			return true;
+		}
 		return false; // should be replaced by student code
 	}
 	/**
@@ -185,11 +187,10 @@ public class BinomialHeap {
 	* public int findMin()
 	*
 	* Return the minimum value
-	*
+	* the min node is always the head of the tree, sos we return its value.
 	*/
-	public int findMin()
-	{
-		return 42;// should be replaced by student code
+	public int findMin() {
+		return this.head.key;
 	} 
 	/**
 	* public void meld (BinomialHeap heap2)
