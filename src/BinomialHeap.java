@@ -99,7 +99,7 @@ public class BinomialHeap {
 		return H1.head; // TODO check this line
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
-	 * Heaps H1 and H2 are ג€�destroyedג€� by this operation. **/
+	 * Heaps H1 and H2 are destroyed by this operation. **/
 	private BinomialHeap union(BinomialHeap H1, BinomialHeap H2) {
 		BinomialHeap H = new BinomialHeap();
 		H.head = merge(H1,H2); // Free the objects H1 and H2 but not the lists they point to
@@ -190,8 +190,9 @@ public class BinomialHeap {
 	public boolean empty() {
 		if (this.head == NIL) {
 			return true;
+		} else {
+			return false;
 		}
-		return false; // should be replaced by student code
 	}
 	/**
 	* public void insert(int value)
@@ -199,9 +200,9 @@ public class BinomialHeap {
 	* Insert value into the heap 
 	*
 	*/
-	public void insert(int value) 
-	{	
-		return; // should be replaced by student code
+	public void insert(int value) {
+		BinomialNode x = new BinomialNode(value);
+		insert(this, x); // TODO check this line
 	}
 	/**
 	* public void deleteMin()
@@ -209,10 +210,8 @@ public class BinomialHeap {
 	* Delete the minimum value
 	*
 	*/
-	public void deleteMin()
-	{
-		return; // should be replaced by student code
-		
+	public void deleteMin() {
+		extractMin(this);
 	}
 	/**
 	* public int findMin()
@@ -221,7 +220,8 @@ public class BinomialHeap {
 	* the min node is always the head of the tree, sos we return its value.
 	*/
 	public int findMin() {
-		return 0;
+		BinomialNode m = minimum();
+		return m.key;
 	} 
 	/**
 	* public void meld (BinomialHeap heap2)
