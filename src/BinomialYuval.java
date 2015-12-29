@@ -1,10 +1,12 @@
-public class yuval {
-	public class BinomialHeap<T extends Comparable<T>> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BinomialYuval<T extends Comparable<T>> {
 	    private Node<T> head;
-	    public BinomialHeap() {
+	    public BinomialYuval() {
 	        head = null;
 	    }
-	    public BinomialHeap(Node<T> head) {
+	    public BinomialYuval(Node<T> head) {
 	        this.head = head;
 	    }
 	    public boolean isEmpty() {
@@ -15,7 +17,7 @@ public class yuval {
 	    }
 	    public void insert(T key) {
 	        Node<T> node = new Node<T>(key);
-	        BinomialHeap<T> tempHeap = new BinomialHeap<T>(node);
+	        BinomialYuval<T> tempHeap = new BinomialYuval<T>(node);
 	        head = union(tempHeap);
 	    }
 	    public T findMinimum() {
@@ -121,7 +123,7 @@ public class yuval {
 	            newHead = child;
 	            child = next;
 	        }
-	        BinomialHeap<T> newHeap = new BinomialHeap<T>(newHead);
+	        BinomialYuval<T> newHeap = new BinomialYuval<T>(newHead);
 
 	        // Union the heaps and set its head as this.head
 	        head = union(newHeap);
@@ -134,7 +136,7 @@ public class yuval {
 	        minNodeTree.degree++;
 	    }
 	    // Union two binomial heaps into one and return the head
-	    public Node<T> union(BinomialHeap<T> heap) {
+	    public Node<T> union(BinomialYuval<T> heap) {
 	        Node<T> newHead = merge(this, heap);
 
 	        head = null;
@@ -175,7 +177,7 @@ public class yuval {
 	        return newHead;
 	    }
 	    private static <T extends Comparable<T>> Node<T> merge(
-	            BinomialHeap<T> heap1, BinomialHeap<T> heap2) {
+	    		BinomialYuval<T> heap1, BinomialYuval<T> heap2) {
 	        if (heap1.head == null) {
 	            return heap2.head;
 	        } else if (heap2.head == null) {
@@ -259,4 +261,3 @@ public class yuval {
 	        }
 	    }
 	}
-}
