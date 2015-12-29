@@ -66,7 +66,25 @@ public class BinomialHeap {
 	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
 	 * that is sorted by degree into monotonically increasing order. **/
 	private BinomialNode merge(BinomialHeap H1, BinomialHeap H2) {
-		return null; // TODO
+		a = head[H1]
+		b = head[H2]
+		head[H1] = Min-Degree(a, b)
+		if head[H1] = NIL
+			return
+				if head[H1] = b
+				   then b = a
+				a = head[H1]
+				while b <> NIL
+				    do if sibling[a] = NIL
+				          then sibling[a] = b
+				               return
+				          else if degree[sibling[a]] < degree[b]
+				                  then a = sibling[a]
+				                  else c = sibling[b]
+				                       sibling[b] = sibling[a]
+				                       sibling[a] = b
+				                       a = sibling[a]
+				                       b = c
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are “destroyed” by this operation. **/
