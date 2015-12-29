@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.*;
+
 /*
  * Binomial Heap test program for Data Structures course.
  * To be compiled with BinomialHeap.java (Student file).
@@ -5,13 +9,6 @@
  * @author  Oren Kishon
  *
  */
-import java.util.Random;
-import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.RejectedExecutionException;
 
 public class BinomialHeapTest {
 	private static int[] createValues(int n) {

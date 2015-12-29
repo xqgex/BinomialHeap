@@ -6,8 +6,9 @@
  */
 public class BinomialHeap {
 	public class BinomialTree {
-		public BinomialTree() {
-			
+		private BinomialNode root; // Tree root
+		public BinomialTree(BinomialNode node) {
+			this.root = node;
 		}
 	}
 	public class BinomialNode {
@@ -56,7 +57,7 @@ public class BinomialHeap {
 		}
 		return y;
 	}
-	/** The procedure makes node y the new head of the linked list of node z’s children **/
+	/** The procedure makes node y the new head of the linked list of node zג€™s children **/
 	private void link(BinomialNode y, BinomialNode z) {
 		y.parent = z;
 		y.sibling = z.child;
@@ -69,7 +70,7 @@ public class BinomialHeap {
 		return null; // TODO
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
-	 * Heaps H1 and H2 are “destroyed” by this operation. **/
+	 * Heaps H1 and H2 are ג€�destroyedג€� by this operation. **/
 	private BinomialHeap union(BinomialHeap H1, BinomialHeap H2) {
 		BinomialHeap H = new BinomialHeap();
 		H.head = merge(H1,H2); // Free the objects H1 and H2 but not the lists they point to
@@ -111,10 +112,11 @@ public class BinomialHeap {
 		H = union(H,H1);
 	}
 	/** Deletes the node from heap H whose key is minimum, returning a pointer to the node. **/
-	private int extractMin(BinomialHeap H) {
-		// find the root x with the minimum key in the root list of H , and remove x from the root list of H
+	private BinomialNode extractMin(BinomialHeap H) {
+		BinomialNode x = NIL;
+		// TODO // find the root x with the minimum key in the root list of H , and remove x from the root list of H
 		BinomialHeap H1 = new BinomialHeap();
-		// reverse the order of the linked list of x’s children, setting the p field of each child to NIL , and set head[H ′ ] to point to the head of the resulting list
+		// TODO // reverse the order of the linked list of xג€™s children, setting the p field of each child to NIL , and set head[H ג€² ] to point to the head of the resulting list
 		H = union(H,H1);
 		return x; // TODO
 	}
@@ -132,10 +134,10 @@ public class BinomialHeap {
 				tmpKey = z.key;
 				z.key = y.key;
 				y.key = tmpKey;
-				if (If y and z have satellite fields, exchange them, too) { // If y and z have satellite fields, exchange them, too. // TODO
+				// If y and z have satellite fields, exchange them, too. // TODO
 					y = z;
 					z = y.parent;
-				}
+				//}
 			}
 		}
 	}
@@ -190,7 +192,7 @@ public class BinomialHeap {
 	* the min node is always the head of the tree, sos we return its value.
 	*/
 	public int findMin() {
-		return this.head.key;
+		return 0;
 	} 
 	/**
 	* public void meld (BinomialHeap heap2)
