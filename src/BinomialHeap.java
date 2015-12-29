@@ -5,12 +5,6 @@
  * Based on exercise from previous semester.// test changes
  */
 public class BinomialHeap {
-	public class BinomialTree {
-		private BinomialNode root; // Tree root
-		public BinomialTree(BinomialNode node) {
-			this.root = node;
-		}
-	}
 	public class BinomialNode {
 		// If node x is a root, then parent = NIL.
 		// If node x has no children, then child = NIL.
@@ -26,6 +20,12 @@ public class BinomialHeap {
 			this.sibling = NIL;
 			this.degree = 0;
 			this.key = key;
+		}
+	}
+	public class BinomialTree {
+		private BinomialNode root; // Tree root
+		public BinomialTree(BinomialNode node) {
+			this.root = node;
 		}
 	}
 	/** Creates and returns a new heap containing no elements **/
@@ -67,25 +67,36 @@ public class BinomialHeap {
 	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
 	 * that is sorted by degree into monotonically increasing order. **/
 	private BinomialNode merge(BinomialHeap H1, BinomialHeap H2) {
-		a = head[H1]
-		b = head[H2]
-		head[H1] = Min-Degree(a, b)
-		if head[H1] = NIL
-			return
-				if head[H1] = b
-				   then b = a
-				a = head[H1]
-				while b <> NIL
-				    do if sibling[a] = NIL
-				          then sibling[a] = b
-				               return
-				          else if degree[sibling[a]] < degree[b]
-				                  then a = sibling[a]
-				                  else c = sibling[b]
-				                       sibling[b] = sibling[a]
-				                       sibling[a] = b
-				                       a = sibling[a]
-				                       b = c
+		BinomialNode a = H1.head;
+		BinomialNode b = H2.head;
+		BinomialNode c = NIL;
+		if (a.degree < b.degree) {
+			H1.head = a;
+		} else {
+			H1.head = b;
+		}
+		if (H1.head == NIL) {
+			return NIL;
+		}
+		if (H1.head == b) {
+			b = a;
+		}
+		a = H1.head;
+		while (b != NIL) {
+			if (a.sibling == NIL) {
+				a.sibling = b;
+				return NIL;
+			} else if (a.sibling.degree < b.degree) {
+				a = a.sibling;
+			} else {
+				c = b.sibling;
+				b.sibling = a.sibling;
+				a.sibling = b;
+				a = a.sibling;
+				b = c;
+			}
+		}
+		return H1.head; // TODO check this line
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are ג€�destroyedג€� by this operation. **/

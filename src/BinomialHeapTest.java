@@ -3,8 +3,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import com.sun.corba.se.impl.orbutil.threadpool.TimeoutException;
+import java.util.concurrent.TimeoutException;
 
 /*
  * Binomial Heap test program for Data Structures course.
