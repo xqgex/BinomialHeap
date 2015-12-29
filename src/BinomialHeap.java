@@ -21,8 +21,23 @@ public class BinomialHeap {
 			this.degree = 0;
 			this.key = key;
 		}
+		private void print(int level) {
+			BinomialNode curr = this;
+			while (curr != null) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < level; i++) {
+					sb.append(" ");
+				}
+				sb.append(String.valueOf(curr.key));
+				System.out.println(sb.toString());
+				if (curr.child != null) {
+					curr.child.print(level + 1);
+				}
+				curr = curr.sibling;
+			}
+		}
 	}
-	public class BinomialTree {
+	public class BinomialTree { // TODO Can we delete this class?
 		private BinomialNode root; // Tree root
 		public BinomialTree(BinomialNode node) {
 			this.root = node;
@@ -141,13 +156,46 @@ public class BinomialHeap {
 		H = union(H,H1);
 	}
 	/** Deletes the node from heap H whose key is minimum, returning a pointer to the node. **/
-	private BinomialNode extractMin(BinomialHeap H) {
-		BinomialNode x = NIL;
-		// TODO // find the root x with the minimum key in the root list of H , and remove x from the root list of H
+	private BinomialNode extractMin(BinomialHeap H) { //TODO check this function
+		//ADT//BinomialNode x = NIL;
+		// TODO // find the root x with the minimum key in the root list of H,
+		if (head == null) {
+			return NIL;
+		}
+		BinomialNode min = this.head;
+		BinomialNode minPrev = NIL;
+		BinomialNode next = min.sibling;
+		BinomialNode nextPrev = min;
+		while (next != NIL) {
+			if (next.key < min.key) {
+				min = next;
+				minPrev = nextPrev;
+			}
+			nextPrev = next;
+			next = next.sibling;
+		}
+		if (min == this.head) {
+			this.head = min.sibling;
+		} else {
+			minPrev.sibling = min.sibling;
+		}
+		BinomialNode newHead = null;
+		BinomialNode child = min.child;
+		while (child != null) {
+			next = child.sibling;
+			child.sibling = newHead;
+			child.parent = null;
+			newHead = child;
+			child = next;
+		}
+		// TODO //and remove x from the root list of H
 		BinomialHeap H1 = new BinomialHeap();
-		// TODO // reverse the order of the linked list of xג€™s children, setting the p field of each child to NIL , and set head[H ג€² ] to point to the head of the resulting list
+		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
+		// TODO // and set head[H] to point to the head of the resulting list
 		H = union(H,H1);
-		return x; // TODO
+		//BinomialHeap newHeap = new BinomialHeap(newHead);
+		//this.head = union(newHeap);
+		return min; // TODO
 	}
 	/** Assigns to node x within heap H the new key value k,
 	 * which is assumed to be no greater than its current key value. **/
@@ -163,10 +211,10 @@ public class BinomialHeap {
 				tmpKey = z.key;
 				z.key = y.key;
 				y.key = tmpKey;
-				// If y and z have satellite fields, exchange them, too. // TODO
-					y = z;
-					z = y.parent;
-				//}
+				// If y and z have satellite fields, exchange them, too. // TODO Can we delete this line safely?
+				y = z;
+				z = y.parent;
+				//} // TODO Can we delete this line safely?
 			}
 		}
 	}
@@ -293,5 +341,17 @@ public class BinomialHeap {
 	*  
 	*/
 	public class HeapNode{
+	}
+	/**
+	 * public void print()
+	 * 
+	 * Print the tree structure to the user.
+	 * 
+	 */
+	public void print() {
+		System.out.println("Binomial heap:");
+		if (head != null) {
+			head.print(0);
+		}
 	}
 }

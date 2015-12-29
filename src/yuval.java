@@ -1,31 +1,23 @@
-
 public class yuval {
 	public class BinomialHeap<T extends Comparable<T>> {
-
 	    private Node<T> head;
-
 	    public BinomialHeap() {
 	        head = null;
 	    }
-
 	    public BinomialHeap(Node<T> head) {
 	        this.head = head;
 	    }
-
 	    public boolean isEmpty() {
 	        return head == null;
 	    }
-
 	    public void clear() {
 	        head = null;
 	    }
-
 	    public void insert(T key) {
 	        Node<T> node = new Node<T>(key);
 	        BinomialHeap<T> tempHeap = new BinomialHeap<T>(node);
 	        head = union(tempHeap);
 	    }
-
 	    public T findMinimum() {
 	        if (head == null) {
 	            return null;
@@ -43,7 +35,6 @@ public class yuval {
 	            return min.key;
 	        }
 	    }
-
 	    // Implemented to test delete/decrease key, runs in O(n) time
 	    public Node<T> search(T key) {
 	        List<Node<T>> nodes = new ArrayList<Node<T>>();
@@ -63,12 +54,10 @@ public class yuval {
 	        }
 	        return null;
 	    }
-
 	    public void decreaseKey(Node<T> node, T newKey) {
 	        node.key = newKey;
 	        bubbleUp(node, false);
 	    }
-
 	    public void delete(Node<T> node) {
 	        node = bubbleUp(node, true);
 	        if (head == node) {
@@ -81,7 +70,6 @@ public class yuval {
 	            removeTreeRoot(node, prev);
 	        }
 	    }
-
 	    private Node<T> bubbleUp(Node<T> node, boolean toRoot) {
 	        Node<T> parent = node.parent;
 	        while (parent != null && (toRoot || node.compareTo(parent) < 0)) {
@@ -93,7 +81,6 @@ public class yuval {
 	        }
 	        return node;
 	    }
-
 	    public T extractMin() {
 	        if (head == null) {
 	            return null;
@@ -116,7 +103,6 @@ public class yuval {
 	        removeTreeRoot(min, minPrev);
 	        return min.key;
 	    }
-
 	    private void removeTreeRoot(Node<T> root, Node<T> prev) {
 	        // Remove root from the heap
 	        if (root == head) {
@@ -140,7 +126,6 @@ public class yuval {
 	        // Union the heaps and set its head as this.head
 	        head = union(newHeap);
 	    }
-
 	    // Merge two binomial trees of the same order
 	    private void linkTree(Node<T> minNodeTree, Node<T> other) {
 	        other.parent = minNodeTree;
@@ -148,7 +133,6 @@ public class yuval {
 	        minNodeTree.child = other;
 	        minNodeTree.degree++;
 	    }
-
 	    // Union two binomial heaps into one and return the head
 	    public Node<T> union(BinomialHeap<T> heap) {
 	        Node<T> newHead = merge(this, heap);
@@ -190,7 +174,6 @@ public class yuval {
 
 	        return newHead;
 	    }
-
 	    private static <T extends Comparable<T>> Node<T> merge(
 	            BinomialHeap<T> heap1, BinomialHeap<T> heap2) {
 	        if (heap1.head == null) {
@@ -233,14 +216,12 @@ public class yuval {
 	            return head;
 	        }
 	    }
-
 	    public void print() {
 	        System.out.println("Binomial heap:");
 	        if (head != null) {
 	            head.print(0);
 	        }
 	    }
-
 	    public static class Node<T extends Comparable<T>>
 	            implements Comparable<Node<T>> {
 	        public T key;
@@ -277,6 +258,5 @@ public class yuval {
 	            }
 	        }
 	    }
-
 	}
 }
