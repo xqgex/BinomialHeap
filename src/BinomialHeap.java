@@ -344,8 +344,22 @@ public class BinomialHeap {
 	*/
 	public boolean[] binaryRep() {
 		verifyNIL();
-		boolean[] arr = new boolean[42];
-		return arr; // TODO to be replaced by student code
+		BinomialNode nod = this.head;
+		int num = (int) Math.ceil(Math.log(nod.degree));
+		boolean[] arr = new boolean[num];
+		int power = num;
+		int i = 0;
+		while(nod != NIL && power > 1){
+			if (nod.degree == Math.pow(2, power) ) {
+				arr[i] = true;
+			} else {
+				arr[i] = false;
+			}
+			nod = nod.sibling;
+			power--;
+			i++;
+		}
+		return arr;
 	}
 	/**
 	* public void arrayToHeap()
@@ -355,7 +369,10 @@ public class BinomialHeap {
 	*/
 	public void arrayToHeap(int[] array) {
 		verifyNIL();
-		return; // TODO to be replaced by student code
+		this.head = null;
+		for (int i : array) {
+			this.insert(i);
+		}
 	}
 	/**
 	* public boolean isValid()
