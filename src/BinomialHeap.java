@@ -268,8 +268,7 @@ public class BinomialHeap {
 	* the min node is always the head of the tree, sos we return its value.
 	*/
 	public int findMin() {
-		BinomialNode m = minimum();
-		return m.key;
+		return minimum().key;
 	} 
 	/**
 	* public void meld (BinomialHeap heap2)
@@ -289,7 +288,13 @@ public class BinomialHeap {
 	*/
 	public int size()
 	{
-		return 42; // should be replaced by student code
+		int size = 0;
+		BinomialNode x = this.head;
+		while (x != NIL) {
+			size += x.degree;
+			x = x.sibling;
+		}
+		return size;
 	}
 	/**
 	* public int minTreeRank()
@@ -299,7 +304,13 @@ public class BinomialHeap {
 	*/
 	public int minTreeRank()
 	{
-		return 0; //	to be replaced by student code
+		int rank = 0;
+		BinomialNode x = this.head;
+		while (x != NIL) {
+			rank = x.degree;
+			x = x.sibling;
+		}
+		return rank;
 	}
 	/**
 	* public boolean[] binaryRep()
@@ -310,17 +321,17 @@ public class BinomialHeap {
 	public boolean[] binaryRep()
 	{
 		boolean[] arr = new boolean[42];
-		return arr; //	to be replaced by student code
+		return arr; // TODO to be replaced by student code
 	}
 	/**
 	* public void arrayToHeap()
 	*
-	* Insert the array to the heap. Delete previous elemnts in the heap.
+	* Insert the array to the heap. Delete previous elements in the heap.
 	* 
 	*/
 	public void arrayToHeap(int[] array)
 	{
-		return; //	to be replaced by student code
+		return; // TODO to be replaced by student code
 	}
 	/**
 	* public boolean isValid()
@@ -330,17 +341,7 @@ public class BinomialHeap {
 	*/
 	public boolean isValid() 
 	{
-		return false; // should be replaced by student code
-	}
-	/**
-	* public class HeapNode
-	* 
-	* If you wish to implement classes other than BinomialHeap
-	* (for example HeapNode), do it in this file, not in 
-	* another file 
-	*  
-	*/
-	public class HeapNode{
+		return true; // TODO should be replaced by student code
 	}
 	/**
 	 * public void print()
