@@ -397,6 +397,24 @@ public class BinomialHeap {
 		}
 		return true; // TODO should be replaced by student code
 	}
+	private int[] recVal(BinomialNode node, int[] ans) {
+		int min = node.key;
+		if (node.child == NIL){
+			return ans;
+		}
+		
+		if (node.degree < min) {
+			ans[0] = 0;
+		}
+		ans[1]++;
+		
+		ans = recVal(node.child,ans);
+		if(node.sibling != null){
+			ans = recVal(node.sibling,ans);	
+		}
+		return ans;
+	}
+	
 	/**
 	 * public void print()
 	 * 
