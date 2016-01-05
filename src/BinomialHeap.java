@@ -23,9 +23,6 @@ public class BinomialHeap {
 		}
 		private void print(int level) {
 			BinomialNode curr = this;
-			if (level == 0) {
-				System.out.println("Tree size: " + this.degree);
-			}
 			while (curr != NIL) {
 				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < level; i++) {
@@ -74,12 +71,12 @@ public class BinomialHeap {
 		}
 		return y;
 	}
-	/** The procedure makes node y the new head of the linked list of node zג€™s children **/
+	/** The procedure makes node y the new head of the linked list of node z children **/
 	private void link(BinomialNode y, BinomialNode z) {
 		y.parent = z;
 		y.sibling = z.child;
 		z.child = y;
-		z.degree += 1;
+		z.degree += y.degree;//1; //TODO is this change correct?
 	}
 	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
 	 * that is sorted by degree into monotonically increasing order. **/
@@ -101,8 +98,12 @@ public class BinomialHeap {
 			}
 			a = this.head;
 			while (b != NIL) {
+				//System.out.println("bbbb"); // TODO DEBUG
+				//this.print(); // TODO DEBUG
 				if (a.sibling == NIL) {
 					a.sibling = b;
+					//System.out.println("bbbb"); // TODO DEBUG
+					//this.print(); // TODO DEBUG
 					return;
 				} else if (a.sibling.degree < b.degree) {
 					a = a.sibling;
@@ -125,6 +126,8 @@ public class BinomialHeap {
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are destroyed by this operation. **/
 	private void union(BinomialHeap H2) {
+		//System.out.println("aaaa"); // TODO DEBUG
+		//this.print(); // TODO DEBUG
 		merge(H2); // Free the objects H1 and H2 but not the lists they point to
 		if (this.head != NIL) {
 			BinomialNode prev_x = NIL;
@@ -263,9 +266,10 @@ public class BinomialHeap {
 	*/
 	public void insert(int value) {
 		verifyNIL();
-		this.print();
 		BinomialNode x = new BinomialNode(value);
 		insert(x); // TODO check this line
+		this.print();
+		System.out.println("My size is: " + this.size() + "\r\n"); // TODO DEBUG
 	}
 	/**
 	* public void deleteMin()
@@ -391,7 +395,7 @@ public class BinomialHeap {
 			lastDegree = x.degree;
 			x = x.sibling;
 		}
-		return true; // TODO should be replaced by student code
+		return true;
 	}
 	private int[] recVal(BinomialNode node, int[] ans) {
 		int min = node.key;
