@@ -231,4 +231,8 @@ public class Tester {
 		runTest();
 		System.out.println("Success! :)");
 	}
+	public static void main(String[] argv) {
+		Tester tst = new Tester();
+		tst.run();
+	}
 }

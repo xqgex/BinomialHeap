@@ -129,45 +129,42 @@ public class BinomialHeap {
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are destroyed by this operation. **/
-	private BinomialHeap union(BinomialHeap H1, BinomialHeap H2) {
-		BinomialHeap H = new BinomialHeap();
-		H.head = merge(H1,H2); // Free the objects H1 and H2 but not the lists they point to
-		if (H.head == NIL) {
-			return H;
-		}
-		BinomialNode prev_x = NIL;
-		BinomialNode x = H.head;
-		BinomialNode next_x = x.sibling;
-		while (next_x != NIL) {
-			if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
-				prev_x = x;
-				x = next_x;
-			} else { // Case 3+4
-				if (x.key <= next_x.key) { // Case 3
-					link(next_x,x);
-				} else { // Case 4
-					if (prev_x == NIL) {
-						H.head = next_x;
-					} else {
-						prev_x.sibling = next_x;
-					}
-					link(x,next_x);
+	private void union(BinomialHeap H2) {
+		this.head = merge(this,H2); // Free the objects H1 and H2 but not the lists they point to
+		if (this.head != NIL) {
+			BinomialNode prev_x = NIL;
+			BinomialNode x = this.head;
+			BinomialNode next_x = x.sibling;
+			while (next_x != NIL) {
+				if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
+					prev_x = x;
 					x = next_x;
+				} else { // Case 3+4
+					if (x.key <= next_x.key) { // Case 3
+						link(next_x,x);
+					} else { // Case 4
+						if (prev_x == NIL) {
+							this.head = next_x;
+						} else {
+							prev_x.sibling = next_x;
+						}
+						link(x,next_x);
+						x = next_x;
+					}
 				}
+				next_x = x.sibling;
 			}
-			next_x = x.sibling;
 		}
-		return H;
 	}
 	/** Inserts node x, whose key field has already been filled in, into heap H. **/
-	private void insert(BinomialHeap H, BinomialNode x) {
+	private void insert(BinomialNode x) {
 		BinomialHeap H1 = new BinomialHeap();
 		x.parent = NIL;
 		x.child = NIL;
 		x.sibling = NIL;
 		x.degree = 0;
 		H1.head = x;
-		H = union(H,H1);
+		union(H1);
 	}
 	/** Deletes the node from heap H whose key is minimum, returning a pointer to the node. **/
 	private BinomialNode extractMin(BinomialHeap H) { //TODO check this function
@@ -206,7 +203,7 @@ public class BinomialHeap {
 		BinomialHeap H1 = new BinomialHeap();
 		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
 		// TODO // and set head[H] to point to the head of the resulting list
-		H = union(H,H1);
+		union(H1);
 		//BinomialHeap newHeap = new BinomialHeap(newHead);
 		//this.head = union(newHeap);
 		return min; // TODO
@@ -272,7 +269,7 @@ public class BinomialHeap {
 	public void insert(int value) {
 		verifyNIL();
 		BinomialNode x = new BinomialNode(value);
-		insert(this, x); // TODO check this line
+		insert(x); // TODO check this line
 	}
 	/**
 	* public void deleteMin()
@@ -345,21 +342,25 @@ public class BinomialHeap {
 	public boolean[] binaryRep() {
 		verifyNIL();
 		BinomialNode nod = this.head;
-		int num = (int) Math.ceil(Math.log(nod.degree));
-		boolean[] arr = new boolean[num];
-		int power = num;
-		int i = 0;
-		while(nod != NIL && power > 1){
-			if (nod.degree == Math.pow(2, power) ) {
-				arr[i] = true;
-			} else {
-				arr[i] = false;
+		if (nod != NIL) {
+			int num = (int) Math.ceil(Math.log(nod.degree));
+			boolean[] arr = new boolean[num];
+			int power = num;
+			int i = 0;
+			while(nod != NIL && power > 1){
+				if (nod.degree == Math.pow(2, power) ) {
+					arr[i] = true;
+				} else {
+					arr[i] = false;
+				}
+				nod = nod.sibling;
+				power--;
+				i++;
 			}
-			nod = nod.sibling;
-			power--;
-			i++;
+			return arr;
+		} else {
+			return new boolean[0];
 		}
-		return arr;
 	}
 	/**
 	* public void arrayToHeap()
@@ -382,6 +383,18 @@ public class BinomialHeap {
 	*/
 	public boolean isValid() {
 		verifyNIL();
+		int lastDegree = INFINITY;
+		BinomialNode x = this.head;
+		while (x != NIL) {
+			if (recVal(x, new int[2])[0] == 0) { // Tree is invalid
+				return false;
+			}
+			if (x.degree < lastDegree) { // Heap is invalid
+				return false;
+			}
+			lastDegree = x.degree;
+			x = x.sibling;
+		}
 		return true; // TODO should be replaced by student code
 	}
 	/**
