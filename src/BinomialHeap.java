@@ -129,11 +129,13 @@ public class BinomialHeap {
 		//System.out.println("aaaa"); // TODO DEBUG
 		//this.print(); // TODO DEBUG
 		merge(H2); // Free the objects H1 and H2 but not the lists they point to
+		this.print(); // TODO DEBUG
 		if (this.head != NIL) {
 			BinomialNode prev_x = NIL;
 			BinomialNode x = this.head;
 			BinomialNode next_x = x.sibling;
 			while (next_x != NIL) {
+				printList(this.head); // TODO DEBUG
 				if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
 					prev_x = x;
 					x = next_x;
@@ -151,6 +153,7 @@ public class BinomialHeap {
 					}
 				}
 				next_x = x.sibling;
+				this.print(); // TODO DEBUG
 			}
 		}
 	}
@@ -168,9 +171,10 @@ public class BinomialHeap {
 	private BinomialNode extractMin(BinomialHeap H) { //TODO check this function
 		//ADT//BinomialNode x = NIL;
 		// TODO // find the root x with the minimum key in the root list of H,
-		if (head == null) {
+		if (head == NIL) {
 			return NIL;
 		}
+		this.print(); // TODO DEBUG
 		BinomialNode min = this.head;
 		BinomialNode minPrev = NIL;
 		BinomialNode next = min.sibling;
@@ -183,28 +187,34 @@ public class BinomialHeap {
 			nextPrev = next;
 			next = next.sibling;
 		}
+		this.print(); // TODO DEBUG
+		// TODO //and remove x from the root list of H
 		if (min == this.head) {
 			this.head = min.sibling;
 		} else {
 			minPrev.sibling = min.sibling;
 		}
-		BinomialNode newHead = null;
+		this.print(); // TODO DEBUG
+		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
+		BinomialNode newHead = NIL;
 		BinomialNode child = min.child;
-		while (child != null) {
+		while (child != NIL) {
 			next = child.sibling;
 			child.sibling = newHead;
-			child.parent = null;
+			child.parent = NIL;
 			newHead = child;
 			child = next;
 		}
-		// TODO //and remove x from the root list of H
-		BinomialHeap H1 = new BinomialHeap();
-		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
+		this.print(); // TODO DEBUG
 		// TODO // and set head[H] to point to the head of the resulting list
+		BinomialHeap H1 = new BinomialHeap();
+		H1.head = newHead;
+		H1.print(); // TODO DEBUG
+		printList(this.head); // TODO DEBUG
+		printList(H1.head); // TODO DEBUG
 		union(H1);
-		//BinomialHeap newHeap = new BinomialHeap(newHead);
-		//this.head = union(newHeap);
-		return min; // TODO
+		this.print(); // TODO DEBUG
+		return min; // TODO check this line
 	}
 	/** Assigns to node x within heap H the new key value k,
 	 * which is assumed to be no greater than its current key value. **/
@@ -238,6 +248,21 @@ public class BinomialHeap {
 		NIL.sibling = NIL;
 		//BinomialHeap.initNIL = BinomialHeap.NIL;
 	}
+	private int[] recVal(BinomialNode node, int[] ans) {
+		int min = node.key;
+		if (node.child == NIL) {
+			return ans;
+		}
+		if (node.degree < min) {
+			ans[0] = 0;
+		}
+		ans[1]++;
+		ans = recVal(node.child,ans);
+		if(node.sibling != null) {
+			ans = recVal(node.sibling,ans);	
+		}
+		return ans;
+	}
 	/***************************************************
 	 ****			Public functions				****
 	 ***************************************************/
@@ -268,8 +293,6 @@ public class BinomialHeap {
 		verifyNIL();
 		BinomialNode x = new BinomialNode(value);
 		insert(x); // TODO check this line
-		this.print();
-		System.out.println("My size is: " + this.size() + "\r\n"); // TODO DEBUG
 	}
 	/**
 	* public void deleteMin()
@@ -397,24 +420,9 @@ public class BinomialHeap {
 		}
 		return true;
 	}
-	private int[] recVal(BinomialNode node, int[] ans) {
-		int min = node.key;
-		if (node.child == NIL){
-			return ans;
-		}
-		
-		if (node.degree < min) {
-			ans[0] = 0;
-		}
-		ans[1]++;
-		
-		ans = recVal(node.child,ans);
-		if(node.sibling != null){
-			ans = recVal(node.sibling,ans);	
-		}
-		return ans;
+	public BinomialNode getHead() {
+		return this.head;
 	}
-	
 	/**
 	 * public void print()
 	 * 
@@ -426,6 +434,20 @@ public class BinomialHeap {
 		System.out.println("Binomial heap:");
 		if (head != NIL) {
 			head.print(0);
+		}
+		System.out.println("My size is: " + size() + "\r\n"); // TODO DEBUG
+	}
+	public void printList(BinomialNode root) {
+		if (root == this.head) {
+			System.out.println("key=" + root.key + " ,degree=" + root.degree + " ,status=root");
+		}
+		if (root.child != NIL) {
+			System.out.println("key=" + root.child.key + " ,degree=" + root.child.degree + " ,status=child");
+			printList(root.child);
+		}
+		if (root.sibling != NIL) {
+			System.out.println("key=" + root.sibling.key + " ,degree=" + root.sibling.degree + " ,status=sibling");
+			printList(root.sibling);
 		}
 	}
 }
