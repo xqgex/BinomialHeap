@@ -279,7 +279,7 @@ public class BinomialHeap {
 	*/
 	public void meld (BinomialHeap heap2)
 	{
-		return; // should be replaced by student code			
+		merge(this,heap2);
 	}
 	/**
 	* public int size()
