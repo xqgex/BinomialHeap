@@ -21,23 +21,19 @@ public class BinomialHeap {
 			this.degree = 0;
 			this.key = key;
 		}
-		public BinomialNode(int key, BinomialNode initNIL) {
-			this.parent = initNIL;
-			this.child = initNIL;
-			this.sibling = initNIL;
-			this.degree = 0;
-			this.key = key;
-		}
 		private void print(int level) {
 			BinomialNode curr = this;
-			while (curr != null) {
+			if (level == 0) {
+				System.out.println("Tree size: " + this.degree);
+			}
+			while (curr != NIL) {
 				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < level; i++) {
 					sb.append(" ");
 				}
 				sb.append(String.valueOf(curr.key));
 				System.out.println(sb.toString());
-				if (curr.child != null) {
+				if (curr.child != NIL) {
 					curr.child.print(level + 1);
 				}
 				curr = curr.sibling;
@@ -60,7 +56,7 @@ public class BinomialHeap {
 	public static BinomialNode NIL = NILsupport.new BinomialNode(0);
 	public static final int INFINITY = 2147483647;
 	private BinomialNode head = NIL;
-	public int numberOfLinks;
+	public int numberOfLinks; // TODO delete me
 	/***************************************************
 	 ****			ADT functions					****
 	 ***************************************************/
@@ -87,27 +83,27 @@ public class BinomialHeap {
 	}
 	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
 	 * that is sorted by degree into monotonically increasing order. **/
-	private BinomialNode merge(BinomialHeap H1, BinomialHeap H2) {
-		BinomialNode a = H1.head;
+	private void merge(BinomialHeap H2) {
+		BinomialNode a = this.head;
 		BinomialNode b = H2.head;
 		if ((a != NIL)&&(b != NIL)) {
 			BinomialNode c = NIL;
 			if (a.degree < b.degree) {
-				H1.head = a;
+				this.head = a;
 			} else {
-				H1.head = b;
+				this.head = b;
 			}
-			if (H1.head == NIL) {
-				return NIL;
+			if (this.head == NIL) {
+				return;
 			}
-			if (H1.head == b) {
+			if (this.head == b) {
 				b = a;
 			}
-			a = H1.head;
+			a = this.head;
 			while (b != NIL) {
 				if (a.sibling == NIL) {
 					a.sibling = b;
-					return NIL;
+					return;
 				} else if (a.sibling.degree < b.degree) {
 					a = a.sibling;
 				} else {
@@ -118,19 +114,18 @@ public class BinomialHeap {
 					b = c;
 				}
 			}
-			return H1.head; // TODO check this line
 		} else {
 			if (a != NIL) {
-				return a;
+				this.head = a;
 			} else {
-				return b;
+				this.head = b;
 			}
 		}
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are destroyed by this operation. **/
 	private void union(BinomialHeap H2) {
-		this.head = merge(this,H2); // Free the objects H1 and H2 but not the lists they point to
+		merge(H2); // Free the objects H1 and H2 but not the lists they point to
 		if (this.head != NIL) {
 			BinomialNode prev_x = NIL;
 			BinomialNode x = this.head;
@@ -162,7 +157,7 @@ public class BinomialHeap {
 		x.parent = NIL;
 		x.child = NIL;
 		x.sibling = NIL;
-		x.degree = 0;
+		x.degree = 1;
 		H1.head = x;
 		union(H1);
 	}
@@ -268,6 +263,7 @@ public class BinomialHeap {
 	*/
 	public void insert(int value) {
 		verifyNIL();
+		this.print();
 		BinomialNode x = new BinomialNode(value);
 		insert(x); // TODO check this line
 	}
@@ -299,7 +295,7 @@ public class BinomialHeap {
 	*/
 	public void meld (BinomialHeap heap2) {
 		verifyNIL();
-		merge(this,heap2);
+		merge(heap2);
 	}
 	/**
 	* public int size()
@@ -424,7 +420,7 @@ public class BinomialHeap {
 	public void print() {
 		verifyNIL();
 		System.out.println("Binomial heap:");
-		if (head != null) {
+		if (head != NIL) {
 			head.print(0);
 		}
 	}
