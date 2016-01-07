@@ -1,21 +1,22 @@
 import java.util.Random;
 
 public class homemadeTester {
-	public static final int SIZE = 224; //224
+	public static final int SIZE = 112; //224
 	public static void main(String[] args) {
+		int[] lst0 = new int[] {198, 712, 722, 542, 182, 392, 385, 488, 642, 16, 900, 47, 171, 38, 971, 329, 113, 1082, 3, 15, 348, 670, 204, 65, 601, 1023, 425, 759, 988, 945, 101, 260, 976, 834, 585, 252, 942, 181, 213, 61, 954, 1100, 243, 849, 559, 360, 634, 338, 579, 376, 556, 337, 316, 203, 969, 595, 651, 263, 660, 309, 458, 754, 863, 430, 237, 629, 857, 809, 832, 804, 1087, 959, 656, 294, 407, 386, 717, 586, 972, 937, 1028, 888, 931, 909, 1031, 801, 824, 66, 201, 851, 625, 439, 374, 881, 620, 1030, 875, 1070, 531, 563, 922, 194, 915, 894, 303, 1115, 506, 1002, 955, 584, 1080, 963};
+		int[] lst1 = createValues(SIZE); //224
 		BinomialHeap myheap = new BinomialHeap();
 		int tmp0 = 0, tmp1 = 0;
 		String tmp3 = "";
-		int[] lst = createValues(SIZE); //224
 		for(int i=0;i<SIZE;i++) {
-			myheap.insert(lst[i]);
+			myheap.insert(lst0[i]);
 			tmp0 = myheap.minTreeRank()+1;
 			tmp1 = (int)Math.floor(Math.log(tmp0) / Math.log(2));
 			tmp3 = bolToString(myheap.binaryRep());
-			if (LSB(tmp3) != tmp1) {
+			//if (LSB(tmp3) != tmp1) {
 				System.err.print("log(" + (tmp0) + ")=" + (tmp1) + " ~ " + tmp3);
 				System.err.println(" ~ LSB is " + LSB(tmp3) + " instead of " + tmp1);
-			}
+			//}
 			myheap.debug(myheap); // TODO DEBUG
 		}
 		System.out.println("Done");

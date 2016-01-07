@@ -352,7 +352,8 @@ public class BinomialHeap {
 	*/
 	public int minTreeRank() {
 		verifyNIL();
-		return (this.head.degree-1);
+		//return (this.head.degree-1);
+		return (int)Math.floor(Math.log(this.head.degree) / Math.log(2));
 	}
 	/**
 	* public boolean[] binaryRep()
