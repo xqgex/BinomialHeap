@@ -11,6 +11,7 @@ public class BinomialHeap {
 		// If node x is a root, then parent = NIL.
 		// If node x has no children, then child = NIL.
 		// if x is the rightmost child of its parent, then sibling = NIL.
+		@SuppressWarnings("unused")
 		private BinomialNode parent; // Pointer to its parent.
 		private BinomialNode child; // Pointer to its leftmost child.
 		private BinomialNode sibling; // pointer to the sibling of x immediately to its right.
@@ -352,13 +353,6 @@ public class BinomialHeap {
 	public int minTreeRank() {
 		verifyNIL();
 		return (this.head.degree-1);
-		/*int rank = 0;
-		BinomialNode x = this.head;
-		while (x != NIL) {
-			rank = x.degree;
-			x = x.sibling;
-		}
-		return rank;*/
 	}
 	/**
 	* public boolean[] binaryRep()

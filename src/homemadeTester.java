@@ -1,12 +1,8 @@
-import java.util.Arrays;
 import java.util.Random;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class homemadeTester {
 	public static final int SIZE = 224; //224
 	public static void main(String[] args) {
-		int[] arr = new int[20000];
 		BinomialHeap myheap = new BinomialHeap();
 		int tmp0 = 0, tmp1 = 0;
 		String tmp3 = "";

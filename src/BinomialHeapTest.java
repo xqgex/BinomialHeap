@@ -32,6 +32,7 @@ public class BinomialHeapTest {
 		}
 		return values;
 	}
+	@SuppressWarnings("unused")
 	private static String vals2str(int[] values) {
 		int min = values[0];
 		for (int val : values) {
@@ -572,6 +573,7 @@ public class BinomialHeapTest {
 					heap1.insert(v);
 					t++;
 				}
+				t = t+1;
 				if (heap1.minTreeRank() != minRank) {
 					setFailed("Min tree rank is "+minRank+" (Size="+size+
 							") but minTreeRank() returned "+
