@@ -351,13 +351,14 @@ public class BinomialHeap {
 	*/
 	public int minTreeRank() {
 		verifyNIL();
-		int rank = 0;
+		return (this.head.degree-1);
+		/*int rank = 0;
 		BinomialNode x = this.head;
 		while (x != NIL) {
 			rank = x.degree;
 			x = x.sibling;
 		}
-		return rank;
+		return rank;*/
 	}
 	/**
 	* public boolean[] binaryRep()
@@ -375,9 +376,6 @@ public class BinomialHeap {
 				biggestNod = biggestNod.sibling;
 			}
 			// Now, do some magic :)
-			double t = Math.log(biggestNod.degree) / Math.log(2);
-			double r = Math.floor(Math.log(biggestNod.degree) / Math.log(2));
-			double j = Math.ceil(Math.log(biggestNod.degree) / Math.log(2));
 			int num = (int)Math.floor(Math.log(biggestNod.degree) / Math.log(2))+1;
 			boolean[] arr = new boolean[num];
 			while (nod != NIL) {
@@ -399,7 +397,7 @@ public class BinomialHeap {
 		verifyNIL();
 		BinomialNode start = new BinomialNode(array[0]);
 		this.head = start;
-		for (int i = 1; i <= array.length; i++) {
+		for (int i = 1; i < array.length; i++) {
 			this.insert(array[i]);
 		}
 	}

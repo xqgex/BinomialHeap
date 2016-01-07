@@ -32,7 +32,6 @@ public class BinomialHeapTest {
 		}
 		return values;
 	}
-	@SuppressWarnings("unused")
 	private static String vals2str(int[] values) {
 		int min = values[0];
 		for (int val : values) {
@@ -454,7 +453,7 @@ public class BinomialHeapTest {
 			heap1.insert(1);
 			heap1.insert(2);
 			heap1.insert(3);
-			int[] vals = createValues(2);
+			int[] vals = createValues(30);
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < vals.length; ++i) {
 				vals[i] += 5;
@@ -462,7 +461,6 @@ public class BinomialHeapTest {
 			}
 
 			heap1.arrayToHeap(vals);
-			int tmp = heap1.size();
 			if (heap1.size() != vals.length) {
 				setFailed("Array size is "+vals.length+ " but size() returned "+
 						heap1.size());
@@ -569,9 +567,10 @@ public class BinomialHeapTest {
 				int size = 7 << minRank;
 				int[] vals = createValues(size);
 				BinomialHeap heap1 = new BinomialHeap();
-
+				int t = 0;
 				for (int v : vals) {
 					heap1.insert(v);
+					t++;
 				}
 				if (heap1.minTreeRank() != minRank) {
 					setFailed("Min tree rank is "+minRank+" (Size="+size+
