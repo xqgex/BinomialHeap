@@ -336,7 +336,7 @@ public class BinomialHeap {
 		verifyNIL();
 		int size = 0;
 		BinomialNode x = this.head;
-		while (x != NIL) {
+		while ( x != NIL ) {
 			size += x.degree;
 			x = x.sibling;
 		}
@@ -395,7 +395,7 @@ public class BinomialHeap {
 		verifyNIL();
 		BinomialNode start = new BinomialNode(array[0]);
 		this.head = start;
-		for (int i = 1; i < array.length; i++) {
+		for (int i = 1; i <= array.length; i++) {
 			this.insert(i);
 		}
 	}
