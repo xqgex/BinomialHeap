@@ -454,7 +454,7 @@ public class BinomialHeapTest {
 			heap1.insert(1);
 			heap1.insert(2);
 			heap1.insert(3);
-			int[] vals = createValues(30);
+			int[] vals = createValues(2);
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < vals.length; ++i) {
 				vals[i] += 5;
@@ -462,6 +462,7 @@ public class BinomialHeapTest {
 			}
 
 			heap1.arrayToHeap(vals);
+			int tmp = heap1.size();
 			if (heap1.size() != vals.length) {
 				setFailed("Array size is "+vals.length+ " but size() returned "+
 						heap1.size());
