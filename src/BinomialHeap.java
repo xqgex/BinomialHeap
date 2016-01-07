@@ -374,10 +374,13 @@ public class BinomialHeap {
 				biggestNod = biggestNod.sibling;
 			}
 			// Now, do some magic :)
-			int num = (int)Math.ceil(Math.log(biggestNod.degree) + 1);
+			double t = Math.log(biggestNod.degree) / Math.log(2);
+			double r = Math.floor(Math.log(biggestNod.degree) / Math.log(2));
+			double j = Math.ceil(Math.log(biggestNod.degree) / Math.log(2));
+			int num = (int)Math.floor(Math.log(biggestNod.degree) / Math.log(2))+1;
 			boolean[] arr = new boolean[num];
 			while (nod != NIL) {
-				arr[num - (int)Math.ceil(Math.log(nod.degree)) - 1] = true;
+				arr[(int)Math.ceil(Math.log(nod.degree) / Math.log(2))] = true;
 				nod = nod.sibling;
 			}
 			return arr;
