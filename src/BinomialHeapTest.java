@@ -32,6 +32,7 @@ public class BinomialHeapTest {
 		}
 		return values;
 	}
+	@SuppressWarnings("unused")
 	private static String vals2str(int[] values) {
 		int min = values[0];
 		for (int val : values) {

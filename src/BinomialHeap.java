@@ -5,6 +5,8 @@
  * Based on exercise from previous semester.// test changes
  */
 public class BinomialHeap {
+	public static boolean DEBUG = false;
+	
 	public class BinomialNode {
 		// If node x is a root, then parent = NIL.
 		// If node x has no children, then child = NIL.
@@ -37,12 +39,12 @@ public class BinomialHeap {
 			}
 		}
 	}
-	public class BinomialTree { // TODO Can we delete this class?
+	/*public class BinomialTree { // TODO Can we delete this class?
 		private BinomialNode root; // Tree root
 		public BinomialTree(BinomialNode node) {
 			this.root = node;
 		}
-	}
+	}*/
 	/** Creates and returns a new heap containing no elements **/
 	public BinomialHeap() {
 	}
@@ -98,12 +100,10 @@ public class BinomialHeap {
 			}
 			a = this.head;
 			while (b != NIL) {
-				//System.out.println("bbbb"); // TODO DEBUG
-				//this.print(); // TODO DEBUG
+				debug(this); // TODO DEBUG
 				if (a.sibling == NIL) {
 					a.sibling = b;
-					//System.out.println("bbbb"); // TODO DEBUG
-					//this.print(); // TODO DEBUG
+					debug(this); // TODO DEBUG
 					return;
 				} else if (a.sibling.degree < b.degree) {
 					a = a.sibling;
@@ -122,6 +122,7 @@ public class BinomialHeap {
 				this.head = b;
 			}
 		}
+		debug(this); // TODO DEBUG
 	}
 	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
 	 * Heaps H1 and H2 are destroyed by this operation. **/
@@ -129,18 +130,20 @@ public class BinomialHeap {
 		//System.out.println("aaaa"); // TODO DEBUG
 		//this.print(); // TODO DEBUG
 		merge(H2); // Free the objects H1 and H2 but not the lists they point to
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		if (this.head != NIL) {
 			BinomialNode prev_x = NIL;
 			BinomialNode x = this.head;
 			BinomialNode next_x = x.sibling;
 			while (next_x != NIL) {
-				printList(this.head); // TODO DEBUG
+				debug(this); // TODO DEBUG
 				if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
 					prev_x = x;
 					x = next_x;
 				} else { // Case 3+4
 					if (x.key <= next_x.key) { // Case 3
+						debug(this); // TODO DEBUG
+						x.sibling = next_x.sibling;
 						link(next_x,x);
 					} else { // Case 4
 						if (prev_x == NIL) {
@@ -153,7 +156,7 @@ public class BinomialHeap {
 					}
 				}
 				next_x = x.sibling;
-				this.print(); // TODO DEBUG
+				debug(this); // TODO DEBUG
 			}
 		}
 	}
@@ -174,7 +177,7 @@ public class BinomialHeap {
 		if (head == NIL) {
 			return NIL;
 		}
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		BinomialNode min = this.head;
 		BinomialNode minPrev = NIL;
 		BinomialNode next = min.sibling;
@@ -187,14 +190,14 @@ public class BinomialHeap {
 			nextPrev = next;
 			next = next.sibling;
 		}
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		// TODO //and remove x from the root list of H
 		if (min == this.head) {
 			this.head = min.sibling;
 		} else {
 			minPrev.sibling = min.sibling;
 		}
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
 		BinomialNode newHead = NIL;
 		BinomialNode child = min.child;
@@ -205,15 +208,14 @@ public class BinomialHeap {
 			newHead = child;
 			child = next;
 		}
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		// TODO // and set head[H] to point to the head of the resulting list
 		BinomialHeap H1 = new BinomialHeap();
 		H1.head = newHead;
-		H1.print(); // TODO DEBUG
-		printList(this.head); // TODO DEBUG
-		printList(H1.head); // TODO DEBUG
+		debug(this); // TODO DEBUG
+		debug(H1); // TODO DEBUG
 		union(H1);
-		this.print(); // TODO DEBUG
+		debug(this); // TODO DEBUG
 		return min; // TODO check this line
 	}
 	/** Assigns to node x within heap H the new key value k,
@@ -448,6 +450,12 @@ public class BinomialHeap {
 		if (root.sibling != NIL) {
 			System.out.println("key=" + root.sibling.key + " ,degree=" + root.sibling.degree + " ,status=sibling");
 			printList(root.sibling);
+		}
+	}
+	public void debug(BinomialHeap hip) {
+		if (DEBUG) {
+			hip.print(); // TODO DEBUG
+			printList(hip.head); // TODO DEBUG
 		}
 	}
 }
