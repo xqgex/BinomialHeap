@@ -172,7 +172,7 @@ public class Tester {
 			System.out.println("###########Test "+i+"###########");
 			initialize();
 			System.out.println("Inserting items...");
-			generateHeap(i*3000, i*10,this.generatedHeap, this.list);
+			generateHeap(i*300000, i*1000,this.generatedHeap, this.list);
 			System.out.println(i*1000+" were inserted to the heap");
 			runTest();
 			System.out.println("Number of linkings after (all) insertions: "+this.numberOfLinksWhileInserting);
