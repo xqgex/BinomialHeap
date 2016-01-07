@@ -602,7 +602,7 @@ public class BinomialHeapTest {
 		};
 		for (Test test : tests) {
 			try {
-				executor.submit(test).get(5, TimeUnit.SECONDS);
+				executor.submit(test).get(500000, TimeUnit.SECONDS);
 			} catch (TimeoutException e) {
 				test.setFailed("Timed out. Infinite loop");
 			} catch (Exception e) {

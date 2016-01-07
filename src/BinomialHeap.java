@@ -20,7 +20,7 @@ public class BinomialHeap {
 			this.parent = NIL;
 			this.child = NIL;
 			this.sibling = NIL;
-			this.degree = 0;
+			this.degree = 1;
 			this.key = key;
 		}
 		private void print(int level) {
@@ -51,9 +51,9 @@ public class BinomialHeap {
 	/***************************************************
 	 ****			Variables						****
 	 ***************************************************/
-	private static BinomialHeap NILsupport = new BinomialHeap();
-	public static BinomialNode NIL = NILsupport.new BinomialNode(0);
 	public static final int INFINITY = 2147483647;
+	private static BinomialHeap NILsupport = new BinomialHeap();
+	public static BinomialNode NIL = NILsupport.new BinomialNode(INFINITY);
 	private BinomialNode head = NIL;
 	public int numberOfLinks; // TODO delete me
 	/***************************************************
@@ -220,7 +220,7 @@ public class BinomialHeap {
 	}
 	/** Assigns to node x within heap H the new key value k,
 	 * which is assumed to be no greater than its current key value. **/
-	private void decreaseKey(BinomialNode x, int k) {
+	/*private void decreaseKey(BinomialNode x, int k) {
 		if (k > x.key) {
 			System.err.println("New key is greater than current key");
 		} else {
@@ -238,12 +238,12 @@ public class BinomialHeap {
 				//} // TODO Can we delete this line safely?
 			}
 		}
-	}
+	}*/
 	/** Deletes node x from heap H. **/
-	private void delete(BinomialNode x) {
+	/*private void delete(BinomialNode x) {
 		decreaseKey(x, -INFINITY);
 		extractMin(this);
-	}
+	}*/
 	private void verifyNIL() {
 		NIL.child = NIL;
 		NIL.parent = NIL;
@@ -253,6 +253,7 @@ public class BinomialHeap {
 	private int[] recVal(BinomialNode node, int[] ans) {
 		int min = node.key;
 		if (node.child == NIL) {
+			ans[0] = 1;
 			return ans;
 		}
 		if (node.degree < min) {
@@ -336,7 +337,7 @@ public class BinomialHeap {
 		verifyNIL();
 		int size = 0;
 		BinomialNode x = this.head;
-		while ( x != NIL ) {
+		while (x != NIL) {
 			size += x.degree;
 			x = x.sibling;
 		}
@@ -410,13 +411,13 @@ public class BinomialHeap {
 	*/
 	public boolean isValid() {
 		verifyNIL();
-		int lastDegree = INFINITY;
+		int lastDegree = -INFINITY;
 		BinomialNode x = this.head;
 		while (x != NIL) {
 			if (recVal(x, new int[2])[0] == 0) { // Tree is invalid
 				return false;
 			}
-			if (x.degree < lastDegree) { // Heap is invalid
+			if (x.degree <= lastDegree) { // Heap is invalid
 				return false;
 			}
 			lastDegree = x.degree;
