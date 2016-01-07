@@ -395,8 +395,9 @@ public class BinomialHeap {
 	*/
 	public void arrayToHeap(int[] array) {
 		verifyNIL();
-		this.head = null;
-		for (int i : array) {
+		BinomialNode start = new BinomialNode(array[0]);
+		this.head = start;
+		for (int i = 1; i < array.length; i++) {
 			this.insert(i);
 		}
 	}
