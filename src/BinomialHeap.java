@@ -314,7 +314,7 @@ public class BinomialHeap {
 	*/
 	public int findMin() {
 		verifyNIL();
-		return minimum().key;
+		return this.minimum().key;
 	} 
 	/**
 	* public void meld (BinomialHeap heap2)
