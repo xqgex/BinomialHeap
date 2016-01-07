@@ -1,17 +1,24 @@
 import java.util.Arrays;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 public class homemadeTester {
 	public static void main(String[] args) {
+		int[] arr = new int[20000];
 		BinomialHeap myheap = new BinomialHeap();
-		for(int i=1;i<10;i++) {
+		for(int i=2;i<20000;i++) {
 			myheap.insert(i);
 			myheap.debug(myheap); // TODO DEBUG
 		}
-		System.out.println("Binnary" + Arrays.toString(myheap.binaryRep()));
-		for(int i=0;i<4;i++) {
+		
+		for(int i=2;i<20000;i++) {
 			myheap.deleteMin();
-			myheap.debug(myheap); // TODO DEBUG
+		
+			if (myheap.findMin() == 1){
+				System.err.println(i);
+			}
 		}
-		System.out.println("Binnary" + Arrays.toString(myheap.binaryRep()));
+		System.out.println("done!");
 	}
 }
+
