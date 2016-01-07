@@ -94,6 +94,7 @@ public class Tester {
 		this.numberOfLinksWhileInserting=this.generatedHeap.numberOfLinks;
 		this.generatedHeap.numberOfLinks=0;
 		System.out.println("Start deleting elements and testing other methods...");
+		System.out.println("Check 1");
 		while(this.list.size()!=0){
 			if(!this.testBinaryRep()){
 				System.err.println("Error with BinaryRep method!");
@@ -125,6 +126,7 @@ public class Tester {
 	public void mixedTest(){
 		Random rand=new Random();
 		int random;
+		System.out.println("Check 2");
 		for(int i=1;i<=20000;i++){
 			random=rand.nextInt(Integer.MAX_VALUE);
 			this.generatedHeap.insert(random);
@@ -148,6 +150,7 @@ public class Tester {
 		sortList(list);
 		this.numberOfLinksWhileInserting+=this.generatedHeap.numberOfLinks;
 		this.generatedHeap.numberOfLinks=0;
+		System.out.println("Check 3");
 		while(list.size()-1!=0){
 			if(!this.testDelete())
 				System.err.println("Error with deleteMin method while trying to delete the "+(numberOfDeletedElements+1)+" element!");
@@ -169,7 +172,7 @@ public class Tester {
 			System.out.println("###########Test "+i+"###########");
 			initialize();
 			System.out.println("Inserting items...");
-			generateHeap(i*300000, i*1000,this.generatedHeap, this.list);
+			generateHeap(i*3000, i*10,this.generatedHeap, this.list);
 			System.out.println(i*1000+" were inserted to the heap");
 			runTest();
 			System.out.println("Number of linkings after (all) insertions: "+this.numberOfLinksWhileInserting);

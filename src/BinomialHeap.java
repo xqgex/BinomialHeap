@@ -5,7 +5,7 @@
  * Based on exercise from previous semester.// test changes
  */
 public class BinomialHeap {
-	public static boolean DEBUG = false;
+	public static final boolean DEBUG = false; // TODO DEBUG
 	
 	public class BinomialNode {
 		// If node x is a root, then parent = NIL.
@@ -367,20 +367,18 @@ public class BinomialHeap {
 	public boolean[] binaryRep() {
 		verifyNIL();
 		BinomialNode nod = this.head;
+		BinomialNode biggestNod = this.head;
 		if (nod != NIL) {
-			int num = (int) Math.ceil(Math.log(nod.degree));
+			// Find the biggest tree
+			while (biggestNod.sibling != NIL) {
+				biggestNod = biggestNod.sibling;
+			}
+			// Now, do some magic :)
+			int num = (int)Math.ceil(Math.log(biggestNod.degree) + 1);
 			boolean[] arr = new boolean[num];
-			int power = num;
-			int i = 0;
-			while(nod != NIL && power > 1){
-				if (nod.degree == Math.pow(2, power) ) {
-					arr[i] = true;
-				} else {
-					arr[i] = false;
-				}
+			while (nod != NIL) {
+				arr[num - (int)Math.ceil(Math.log(nod.degree)) - 1] = true;
 				nod = nod.sibling;
-				power--;
-				i++;
 			}
 			return arr;
 		} else {
