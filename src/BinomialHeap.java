@@ -400,7 +400,7 @@ public class BinomialHeap {
 		BinomialNode start = new BinomialNode(array[0]);
 		this.head = start;
 		for (int i = 1; i <= array.length; i++) {
-			this.insert(i);
+			this.insert(array[i]);
 		}
 	}
 	/**
