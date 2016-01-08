@@ -5,8 +5,6 @@
  * Based on exercise from previous semester.// test changes
  */
 public class BinomialHeap {
-	public static final boolean DEBUG = false; // TODO DEBUG
-	
 	public class BinomialNode {
 		// If node x is a root, then parent = NIL.
 		// If node x has no children, then child = NIL.
@@ -17,6 +15,13 @@ public class BinomialHeap {
 		private BinomialNode sibling; // pointer to the sibling of x immediately to its right.
 		private int degree; // The number of children of x.
 		private int key;
+		/**
+		 * public BinomialNode(int key)
+		 * 
+		 * Binomial Node constructor
+		 * @param key
+		 * 
+		 */
 		public BinomialNode(int key) {
 			this.parent = NIL;
 			this.child = NIL;
@@ -24,6 +29,13 @@ public class BinomialHeap {
 			this.degree = 1;
 			this.key = key;
 		}
+		/**
+		 * private void print(int level)
+		 * 
+		 * Recursive function that print the tree.
+		 * @param level
+		 * 
+		 */
 		private void print(int level) {
 			BinomialNode curr = this;
 			while (curr != NIL) {
@@ -40,37 +52,31 @@ public class BinomialHeap {
 			}
 		}
 	}
-	/*public class BinomialTree { // TODO Can we delete this class?
-		private BinomialNode root; // Tree root
-		public BinomialTree(BinomialNode node) {
-			this.root = node;
-		}
-	}*/
 	/** Creates and returns a new heap containing no elements **/
 	public BinomialHeap() {
 	}
 	/***************************************************
 	 ****			Variables						****
 	 ***************************************************/
-	public static final int INFINITY = 2147483647;
+	public static final int INFINITY = 2147483647; // This number represent infinity in our calculation
 	private static BinomialHeap NILsupport = new BinomialHeap();
-	public static BinomialNode NIL = NILsupport.new BinomialNode(INFINITY);
-	private BinomialNode head = NIL;
-	public int numberOfLinks; // TODO delete me
+	public static BinomialNode NIL = NILsupport.new BinomialNode(INFINITY); // NIL node
+	private BinomialNode head = NIL; // Point to the head of the heap
+	public int numberOfLinks;
 	/***************************************************
-	 ****			ADT functions					****
+	 ****			Private functions				****
 	 ***************************************************/
 	/** Returns a pointer to the node in heap H whose key is minimum **/
 	private BinomialNode minimum() {
 		BinomialNode y = NIL;
 		BinomialNode x = this.head;
 		int min = INFINITY;
-		while (x != NIL) {
+		while (x != NIL) { // Foreach tree in the heap
 			if (x.key < min) {
 				min = x.key;
 				y = x;
 			}
-			x = x.sibling;
+			x = x.sibling; // Move to the next tree
 		}
 		return y;
 	}
@@ -79,7 +85,7 @@ public class BinomialHeap {
 		y.parent = z;
 		y.sibling = z.child;
 		z.child = y;
-		z.degree += y.degree;//1; //TODO is this change correct?
+		z.degree += y.degree;
 	}
 	/** Merges the root lists of binomial heaps H1 and H2 into a single linked list H
 	 * that is sorted by degree into monotonically increasing order. **/
@@ -101,10 +107,8 @@ public class BinomialHeap {
 			}
 			a = this.head;
 			while (b != NIL) {
-				debug(this); // TODO DEBUG
 				if (a.sibling == NIL) {
 					a.sibling = b;
-					debug(this); // TODO DEBUG
 					return;
 				} else if (a.sibling.degree < b.degree) {
 					a = a.sibling;
@@ -123,27 +127,21 @@ public class BinomialHeap {
 				this.head = b;
 			}
 		}
-		debug(this); // TODO DEBUG
 	}
-	/** creates and returns a new heap that contains all the nodes of heaps H1 and H2.
-	 * Heaps H1 and H2 are destroyed by this operation. **/
+	/** Add all the nodes of H2 the current heap
+	 * Heaps H2 are destroyed by this operation. **/
 	private void union(BinomialHeap H2) {
-		//System.out.println("aaaa"); // TODO DEBUG
-		//this.print(); // TODO DEBUG
-		merge(H2); // Free the objects H1 and H2 but not the lists they point to
-		debug(this); // TODO DEBUG
-		if (this.head != NIL) {
+		merge(H2); // Merge the current heap with heap H2
+		if (this.head != NIL) { // If we aren't dealing with two empty heaps - rearrange the heap
 			BinomialNode prev_x = NIL;
 			BinomialNode x = this.head;
 			BinomialNode next_x = x.sibling;
 			while (next_x != NIL) {
-				debug(this); // TODO DEBUG
 				if ( (x.degree != next_x.degree)||( (next_x.sibling != NIL)&&(next_x.sibling.degree == x.degree) ) ) { // Case 1+2
 					prev_x = x;
 					x = next_x;
 				} else { // Case 3+4
 					if (x.key <= next_x.key) { // Case 3
-						debug(this); // TODO DEBUG
 						x.sibling = next_x.sibling;
 						link(next_x,x);
 					} else { // Case 4
@@ -157,49 +155,45 @@ public class BinomialHeap {
 					}
 				}
 				next_x = x.sibling;
-				debug(this); // TODO DEBUG
 			}
 		}
 	}
-	/** Inserts node x, whose key field has already been filled in, into heap H. **/
+	/** Inserts node x into heap H,
+	 * Assume that node x key field already been filled in **/
 	private void insert(BinomialNode x) {
-		BinomialHeap H1 = new BinomialHeap();
+		BinomialHeap H1 = new BinomialHeap(); // Create a new heap
 		x.parent = NIL;
 		x.child = NIL;
 		x.sibling = NIL;
 		x.degree = 1;
-		H1.head = x;
-		union(H1);
+		H1.head = x; // Make the new heap point to node x
+		union(H1); // Union the heaps
 	}
-	/** Deletes the node from heap H whose key is minimum, returning a pointer to the node. **/
-	private BinomialNode extractMin(BinomialHeap H) { //TODO check this function
-		//ADT//BinomialNode x = NIL;
-		// TODO // find the root x with the minimum key in the root list of H,
-		if (head == NIL) {
+	/** Delete the node from heap H with the minimum key,
+	 * return a pointer to the node. **/
+	private BinomialNode extractMin(BinomialHeap H) {
+		if (head == NIL) { // The heap is empty
 			return NIL;
 		}
-		debug(this); // TODO DEBUG
 		BinomialNode min = this.head;
 		BinomialNode minPrev = NIL;
 		BinomialNode next = min.sibling;
 		BinomialNode nextPrev = min;
-		while (next != NIL) {
-			if ( (min == NIL)||(next.key < min.key) ) {
+		while (next != NIL) { // find the root x with the minimum key in the heap,
+			if ( (min == NIL)||(next.key < min.key) ) { // We found a new minimum
 				min = next;
 				minPrev = nextPrev;
 			}
 			nextPrev = next;
 			next = next.sibling;
 		}
-		debug(this); // TODO DEBUG
-		// TODO //and remove x from the root list of H
-		if (min == this.head) {
+		// Remove x from the heap
+		if (min == this.head) { // The minimum node is the heap head
 			this.head = min.sibling;
 		} else {
 			minPrev.sibling = min.sibling;
 		}
-		debug(this); // TODO DEBUG
-		// TODO // reverse the order of the linked list of x children, setting the p field of each child to NIL,
+		// reverse the order of the linked list of x children, setting the parent field of each child to NIL,
 		BinomialNode newHead = NIL;
 		BinomialNode child = min.child;
 		while (child != NIL) {
@@ -209,61 +203,32 @@ public class BinomialHeap {
 			newHead = child;
 			child = next;
 		}
-		debug(this); // TODO DEBUG
-		// TODO // and set head[H] to point to the head of the resulting list
+		// set the heap head to point to the head of the resulting list
 		BinomialHeap H1 = new BinomialHeap();
 		H1.head = newHead;
-		debug(this); // TODO DEBUG
-		debug(H1); // TODO DEBUG
 		union(H1);
-		debug(this); // TODO DEBUG
-		return min; // TODO check this line
+		return min;
 	}
-	/** Assigns to node x within heap H the new key value k,
-	 * which is assumed to be no greater than its current key value. **/
-	/*private void decreaseKey(BinomialNode x, int k) {
-		if (k > x.key) {
-			System.err.println("New key is greater than current key");
-		} else {
-			int tmpKey = 0;
-			x.key = k;
-			BinomialNode y = x;
-			BinomialNode z = y.parent;
-			while ( (z != NIL)&&(y.key < z.key) ) {
-				tmpKey = z.key;
-				z.key = y.key;
-				y.key = tmpKey;
-				// If y and z have satellite fields, exchange them, too. // TODO Can we delete this line safely?
-				y = z;
-				z = y.parent;
-				//} // TODO Can we delete this line safely?
-			}
-		}
-	}*/
-	/** Deletes node x from heap H. **/
-	/*private void delete(BinomialNode x) {
-		decreaseKey(x, -INFINITY);
-		extractMin(this);
-	}*/
+	/** Make sure that the heap have been initialized correctly */
 	private void verifyNIL() {
 		NIL.child = NIL;
 		NIL.parent = NIL;
 		NIL.sibling = NIL;
-		//BinomialHeap.initNIL = BinomialHeap.NIL;
 	}
-	private int[] recVal(BinomialNode node, int[] ans) {
-		int min = node.key;
-		if (node.child == NIL) {
-			ans[0] = 1;
+	/** Recursive function that check that the tree hanging out from the node is valid */
+	private int[] treeValidationTest(BinomialNode node, int[] ans) {
+		int min = node.key; // TODO WHY????????????????
+		if (node.child == NIL) { // The tree don't have child's
+			ans[0] = 1; // Tree is valid
 			return ans;
 		}
 		if (node.degree < min) {
-			ans[0] = 0;
+			ans[0] = 0; // Tree is invalid
 		}
-		ans[1]++;
-		ans = recVal(node.child,ans);
-		if(node.sibling != null) {
-			ans = recVal(node.sibling,ans);	
+		ans[1]++; // Add one to the tree degree
+		ans = treeValidationTest(node.child,ans); // Check node child
+		if(node.sibling != null) { // The node have sibling
+			ans = treeValidationTest(node.sibling,ans);	 // Check node sibling
 		}
 		return ans;
 	}
@@ -274,10 +239,9 @@ public class BinomialHeap {
 	* public boolean empty()
 	*
 	* precondition: none
-	* 
-	* The method returns true if and only if the heap
-	* is empty.
-	*	
+	*
+	* The method returns true if and only if the heap is empty.
+	*
 	*/
 	public boolean empty() {
 		verifyNIL();
@@ -290,18 +254,20 @@ public class BinomialHeap {
 	/**
 	* public void insert(int value)
 	*
-	* Insert value into the heap 
+	* precondition: value is a valid integer
+	*
+	* Insert value into the heap.
 	*
 	*/
 	public void insert(int value) {
 		verifyNIL();
 		BinomialNode x = new BinomialNode(value);
-		insert(x); // TODO check this line
+		insert(x);
 	}
 	/**
 	* public void deleteMin()
 	*
-	* Delete the minimum value
+	* Delete the minimum value.
 	*
 	*/
 	public void deleteMin() {
@@ -311,8 +277,8 @@ public class BinomialHeap {
 	/**
 	* public int findMin()
 	*
-	* Return the minimum value
-	* the min node is always the head of the tree, sos we return its value.
+	* Return the minimum value.
+	*
 	*/
 	public int findMin() {
 		verifyNIL();
@@ -321,24 +287,26 @@ public class BinomialHeap {
 	/**
 	* public void meld (BinomialHeap heap2)
 	*
-	* Meld the heap with heap2
+	* precondition: the heap received is a valid heap.
+	*
+	* Meld the to heaps
 	*
 	*/
 	public void meld (BinomialHeap heap2) {
 		verifyNIL();
-		merge(heap2);
+		union(heap2);
 	}
 	/**
 	* public int size()
 	*
-	* Return the number of elements in the heap
-	*	
+	* Return the number of elements in the heap.
+	*
 	*/
 	public int size() {
 		verifyNIL();
 		int size = 0;
 		BinomialNode x = this.head;
-		while (x != NIL) {
+		while (x != NIL) { // Foreach tree in the heap
 			size += x.degree;
 			x = x.sibling;
 		}
@@ -348,84 +316,95 @@ public class BinomialHeap {
 	* public int minTreeRank()
 	*
 	* Return the minimum rank of a tree in the heap.
-	* 
+	*
 	*/
 	public int minTreeRank() {
 		verifyNIL();
-		//return (this.head.degree-1);
 		return (int)Math.floor(Math.log(this.head.degree) / Math.log(2));
 	}
 	/**
 	* public boolean[] binaryRep()
 	*
 	* Return an array containing the binary representation of the heap.
-	* 
+	*
 	*/
 	public boolean[] binaryRep() {
 		verifyNIL();
 		BinomialNode nod = this.head;
 		BinomialNode biggestNod = this.head;
-		if (nod != NIL) {
+		if (nod != NIL) { // If heap isn't empty
 			// Find the biggest tree
 			while (biggestNod.sibling != NIL) {
 				biggestNod = biggestNod.sibling;
 			}
 			// Now, do some magic :)
-			int num = (int)Math.floor(Math.log(biggestNod.degree) / Math.log(2))+1;
-			boolean[] arr = new boolean[num];
-			while (nod != NIL) {
-				arr[(int)Math.ceil(Math.log(nod.degree) / Math.log(2))] = true;
+			int num = (int)Math.floor(Math.log(biggestNod.degree) / Math.log(2))+1; // Calculate the array size
+			boolean[] arr = new boolean[num]; // Create the array initialized to "false"
+			while (nod != NIL) { // Foreach tree in the heap
+				arr[(int)Math.ceil(Math.log(nod.degree) / Math.log(2))] = true; // Change the corresponded place in the array to "true"
 				nod = nod.sibling;
 			}
 			return arr;
 		} else {
-			return new boolean[0];
+			return new boolean[0]; // Return empty array
 		}
 	}
 	/**
-	* public void arrayToHeap()
+	* public void arrayToHeap(int[] array)
 	*
-	* Insert the array to the heap. Delete previous elements in the heap.
-	* 
+	* precondition: 'array' is a valid int array.
+	*
+	* Insert the array to the heap, Delete previous elements from the heap.
+	*
 	*/
 	public void arrayToHeap(int[] array) {
 		verifyNIL();
-		BinomialNode start = new BinomialNode(array[0]);
-		this.head = start;
-		for (int i = 1; i < array.length; i++) {
-			this.insert(array[i]);
+		if (array.length > 0) { // The array isn't empty
+			BinomialNode start = new BinomialNode(array[0]); // Create a new node from the first element
+			this.head = start; // Make the heap point to the new node
+			for (int i = 1; i < array.length; i++) {
+				this.insert(array[i]); // Insert node to the heap
+			}
+		} else { // The array is empty
+			this.head = NIL;
 		}
 	}
 	/**
 	* public boolean isValid()
 	*
 	* Returns true if and only if the heap is valid.
-	*	
+	*
 	*/
 	public boolean isValid() {
 		verifyNIL();
 		int lastDegree = -INFINITY;
 		BinomialNode x = this.head;
-		while (x != NIL) {
-			if (recVal(x, new int[2])[0] == 0) { // Tree is invalid
+		while (x != NIL) { // While there is more tree in the heap
+			if (treeValidationTest(x, new int[2])[0] == 0) { // Check if the tree is valid
 				return false;
 			}
-			if (x.degree <= lastDegree) { // Heap is invalid
+			if (x.degree <= lastDegree) { // Check if the heap is valid
 				return false;
 			}
 			lastDegree = x.degree;
-			x = x.sibling;
+			x = x.sibling; // Move to the next tree
 		}
 		return true;
 	}
+	/** 
+	 * BinomialNode getHead()
+	 *
+	 * Return the tree head.
+	 *
+	 */
 	public BinomialNode getHead() {
 		return this.head;
 	}
 	/**
 	 * public void print()
-	 * 
+	 *
 	 * Print the tree structure to the user.
-	 * 
+	 *
 	 */
 	public void print() {
 		verifyNIL();
@@ -433,8 +412,16 @@ public class BinomialHeap {
 		if (head != NIL) {
 			head.print(0);
 		}
-		System.out.println("My size is: " + size() + "\r\n"); // TODO DEBUG
+		System.out.println("My size is: " + size() + "\r\n");
 	}
+	/**
+	 * public void printList(BinomialNode root)
+	 *
+	 * precondition: 'root' is a valid node.
+	 *
+	 * A recursive function that print all the heap nodes in a list.
+	 *
+	 */
 	public void printList(BinomialNode root) {
 		if (root == this.head) {
 			System.out.println("key=" + root.key + " ,degree=" + root.degree + " ,status=root");
@@ -446,12 +433,6 @@ public class BinomialHeap {
 		if (root.sibling != NIL) {
 			System.out.println("key=" + root.sibling.key + " ,degree=" + root.sibling.degree + " ,status=sibling");
 			printList(root.sibling);
-		}
-	}
-	public void debug(BinomialHeap hip) {
-		if (DEBUG) {
-			hip.print(); // TODO DEBUG
-			printList(hip.head); // TODO DEBUG
 		}
 	}
 }

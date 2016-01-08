@@ -168,29 +168,30 @@ public class Tester {
 	public void run(){
 		DecimalFormat df=new DecimalFormat();
 		df.setMaximumFractionDigits(2);
+		int firstSize = 500; //500
 		for(int i=1;i<=10;i++){
 			System.out.println("###########Test "+i+"###########");
 			initialize();
 			System.out.println("Inserting items...");
-			generateHeap(i*300000, i*1000,this.generatedHeap, this.list);
-			System.out.println(i*1000+" were inserted to the heap");
+			generateHeap(i*firstSize*600, i*firstSize*2,this.generatedHeap, this.list);
+			System.out.println(i*firstSize*2+" were inserted to the heap");
 			runTest();
 			System.out.println("Number of linkings after (all) insertions: "+this.numberOfLinksWhileInserting);
-			System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileInserting/(i*1000)));
+			System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileInserting/(i*firstSize*2)));
 			System.out.println("Number of linkings after (all) deletions: "+this.numberOfLinksWhileDeleting);
-			System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileDeleting/(i*1000)));
+			System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileDeleting/(i*firstSize*2)));
 			System.out.println("Total linking operations: "+(this.numberOfLinksWhileDeleting+this.numberOfLinksWhileInserting));
-			testArrayToHeap(i*300000, i*500);
+			testArrayToHeap(i*firstSize*600, i*firstSize);
 			initialize();
-			testMeld(i*300000, i*1000);
+			testMeld(i*firstSize*600, i*firstSize*2);
 			initialize();
 		}
 		System.out.println("###########Test "+11+" Mixed Test###########");
 		mixedTest();
 		System.out.println("Number of linkings after (all) insertions: "+this.numberOfLinksWhileInserting);
-		System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileInserting/20000));
+		System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileInserting/(firstSize*40)));
 		System.out.println("Number of linkings after (all) deletions: "+this.numberOfLinksWhileDeleting);
-		System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileDeleting/20000));
+		System.out.println("Average number of linking operations: "+df.format((double) this.numberOfLinksWhileDeleting/(firstSize*40)));
 		System.out.println("Total linking operations: "+(this.numberOfLinksWhileDeleting+this.numberOfLinksWhileInserting));
 		initialize();
 	}
@@ -237,5 +238,6 @@ public class Tester {
 	public static void main(String[] argv) {
 		Tester tst = new Tester();
 		tst.run();
+		System.out.println("DONE!");
 	}
 }

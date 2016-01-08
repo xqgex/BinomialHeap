@@ -621,8 +621,7 @@ public class BinomialHeapTest {
 			System.out.printf("Test %2d | " + test + "\n", ++i);
 		}
 		System.out.println("Failed "+failed+" Out of "+tests.length+" tests");
-		System.out.printf("Grade:\n%.0f\n", 
-				100 * (1 - (float)failed/tests.length));
+		System.out.printf("Grade:\n%.0f\n", 100 * (1 - (float)failed/tests.length));
 		System.exit(0);
 	}
 }
