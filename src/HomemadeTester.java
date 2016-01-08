@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class homemadeTester {
+public class HomemadeTester {
 	public static final int SIZE = 112;
 	public static void main(String[] args) {
 		int[][] lst = new int[][] {{198, 712, 722, 542, 182, 392, 385, 488, 642, 16, 900, 47, 171, 38, 971, 329, 113, 1082, 3,
