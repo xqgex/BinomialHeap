@@ -20,9 +20,9 @@ public class homemadeTester {
 				tmp0 = myheap.minTreeRank()+1;
 				tmp1 = (int)Math.floor(Math.log(tmp0) / Math.log(2));
 				tmp2 = bolToString(myheap.binaryRep());
-				if (tmp1 != LSB(tmp2)) {
+				if (tmp0 != LSB(tmp2)+1) {
 					System.err.print("log(" + (tmp0) + ")=" + (tmp1) + " ~ " + tmp2);
-					System.err.println(" ~ LSB is the " + LSB(tmp2) + " digit");
+					System.err.println(" ~ LSB is the " + (LSB(tmp2)+1) + " digit");
 				}
 			}
 			System.err.println("Finish loop number " + (j+1) + "\r\n");
