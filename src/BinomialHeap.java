@@ -191,7 +191,7 @@ public class BinomialHeap {
 	}
 	/** Recursive function that check that the tree hanging out from the node is valid **/
 	private int[] treeValidationTest(BinomialNode node, int[] ans) {
-		int min = node.key; // TODO WHY????????????????
+		int min = node.degree;
 		if (node.child == NIL) { // The tree don't have child's
 			ans[0] = 1; // Tree is valid
 			return ans;
